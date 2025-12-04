@@ -73,7 +73,7 @@ class PlayerActionService(private val rootService : RootService) : AbstractRefre
       val game = checkNotNull(rootService.currentGame) { println("Game is null") }
       val playerWithTurn = game.players[game.currentPlayer % 2]
       check(handCard.compareValue(stairCard) == 0 ||
-      handCard.compareSuit(stairCard)) { "This is an invalid combination" }
+      handCard.compareSuit(stairCard)) { println("This is an invalid combination") }
       val combinedScore : Int = stairCard.value.toInt() + handCard.value.toInt()
       playerWithTurn.score += combinedScore 
       playerWithTurn.hand.remove(handCard)
