@@ -34,14 +34,15 @@ If a face-up card has been successfully combined with a card from the hand, both
 
 If the current player doesn't want to combine cards or simply can't, they may alternatively discard a card from their hand. The card is then placed on the discard pile.
 
-Each player may destroy one face-up card once per turn. The card is then placed on the discard pile and the face-down card underneath is revealed. The player continues their turn. This action costs the player 5 points.
+Each player may destroy one face-up card once per turn. The card is then placed on the discard pile and the face-down card underneath is revealed. The player continues their turn. This action costs the player 5 points. \
 
-## End Game
+**_End Game_** \
 The goal of the game is to get the most points possible. The game ends:
 - if there are no more cards left on the stairs, or 
 - if the draw stack is empty and no cards were removed from the stairs since the last mix.
 
-
+# Contributing
+Feel free to open issues or PRs if you find bugs and/or have suggestionas :) I'm planning on gradually improving the project as I continue learning
 
 
 
