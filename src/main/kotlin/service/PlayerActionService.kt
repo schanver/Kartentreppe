@@ -72,7 +72,7 @@ class PlayerActionService(private val rootService : RootService) : AbstractRefre
     try {
       val game = checkNotNull(rootService.currentGame) { println("Game is null") }
       val playerWithTurn = game.players[game.currentPlayer % 2]
-      check(handCard.compareValue(stairCard) == 0 ||
+      require(handCard.compareValue(stairCard) == 0 ||
       handCard.compareSuit(stairCard)) { println("This is an invalid combination") }
       val combinedScore : Int = stairCard.value.toInt() + handCard.value.toInt()
       playerWithTurn.score += combinedScore 
@@ -97,7 +97,7 @@ class PlayerActionService(private val rootService : RootService) : AbstractRefre
         }
         onAllRefreshables { refreshAfterCombineCards(handCard,stairCard) }
         rootService.gameService.endTurn() 
-      } catch(e: IllegalStateException) {
+      } catch(e: IllegalArgumentException) {
         println(e.message)
         throw e
       }

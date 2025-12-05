@@ -84,23 +84,23 @@ class KartentreppeScene(private val rootService: RootService) : BoardGameScene(1
         try {
           rootService.playerActionService.destroyFromStairs(cardMap.backward(checkNotNull(selectedCard)))
         } catch(e: IllegalStateException) {
-          this.isVisible = false
-          selectedCard?.opacity = 1.0
-          selectedCard = null
+          reset()
+          errorLabel.opacity = 1.0
           errorLabel.text = "You already destroyed a card this turn!"
           playAnimation(DelayAnimation(2000).apply {
             onFinished = { _ : AnimationFinishedEvent ->
               errorLabel.text = ""
+              errorLabel.opacity = 0.0
             }
           })
         } catch(e: IllegalArgumentException) {
-          this.isVisible = false
-          selectedCard?.opacity = 1.0
-          selectedCard = null
+          reset()
+          errorLabel.opacity = 1.0
           errorLabel.text = "You don't have enough points!"
           playAnimation(DelayAnimation(2000).apply {
             onFinished = { _ : AnimationFinishedEvent ->
               errorLabel.text = ""
+              errorLabel.opacity = 0.0
             }
           })
         }
@@ -202,9 +202,12 @@ class KartentreppeScene(private val rootService: RootService) : BoardGameScene(1
     width                       = 300,
     isWrapText                  = true,
     height                      = 100,
-    font                        = Font(size=23,family="Monospace",color=Color.RED),
-    visual                      = ColorVisual(255,255,255,0) 
-  )
+    font                        = Font(size=23,family="Monospace",color=Color.WHITE,fontWeight=Font.FontWeight.BOLD),
+    visual                      = ColorVisual(255,0,0),
+  ).apply { 
+    opacity                     = 0.0
+    background                  = ColorVisual(255, 255, 255, 50)
+  }
 
   private val cardMap: BidirectionalMap<Card, CardView> = BidirectionalMap()
 
@@ -339,14 +342,15 @@ class KartentreppeScene(private val rootService: RootService) : BoardGameScene(1
           val handCard  = cardMap.backward(this)
           try {
             rootService.playerActionService.combineCards(handCard, stairCard)
-          } catch(e: IllegalStateException) {
-            this.opacity = 1.0
-            selectedCard?.opacity = 1.0
-            selectedCard = null
+          } catch(e: IllegalArgumentException) {
+            reset()
+            errorLabel.opacity = 1.0
             errorLabel.text = "This is an invalid combination!"
-            playAnimation(DelayAnimation(3000).apply { 
+            playAnimation(DelayAnimation(2000).apply { 
               onFinished = { _ : AnimationFinishedEvent ->
-                errorLabel.text = "" }
+                errorLabel.text = "" 
+                errorLabel.opacity = 0.0
+              }
             })
           }
         }
@@ -388,8 +392,16 @@ class KartentreppeScene(private val rootService: RootService) : BoardGameScene(1
         else if(selectedCard?.parent == handLayoutPlayer1) {
           val cardOnStair = cardMap.backward(this)
           val handCard  = cardMap.backward(checkNotNull(selectedCard))
+          try {
           rootService.playerActionService.combineCards(handCard, cardOnStair)
-          selectedCard = null
+          } catch(e: IllegalArgumentException) {
+            reset()
+            errorLabel.text = "This is an invalid combination!"
+            playAnimation(DelayAnimation(3000).apply { 
+              onFinished = { _ : AnimationFinishedEvent ->
+                errorLabel.text = "" }
+            })
+          }
         } else {
           selectedCard?.opacity = 1.0
           selectedCard = this
@@ -514,12 +526,7 @@ class KartentreppeScene(private val rootService: RootService) : BoardGameScene(1
     stairColumn4.clear()
     stairColumn5.clear()
 
-    discardButton.isDisabled = true
-    discardButton.isVisible = false
-    destroyButton.isDisabled = true
-    destroyButton.isVisible = false
-    selectedCard = null
-
+    reset() 
     val playerToMove = game.players[game.currentPlayer % 2]
     val nextPlayer   = game.players[(game.currentPlayer + 1) % 2]
     playerNameLabel.text = "${playerToMove.name} : ${playerToMove.score}"
@@ -541,5 +548,11 @@ class KartentreppeScene(private val rootService: RootService) : BoardGameScene(1
     }
   }
 
+  private fun reset() {
+    discardButton.isVisible = false
+    destroyButton.isVisible = false
+    selectedCard?.opacity   = 1.0
+    selectedCard            = null
+  }
 
 }
