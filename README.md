@@ -1,6 +1,6 @@
 # Kartentreppe 
 A two-player board game written in Kotlin using [BGW](https://github.com/tudo-aqua/bgw)-Framework
-[GameBoard](assets/Kartentreppe.png)
+![GameBoard](assets/Kartentreppe.png)
 
 # Gameplay
 ![Gameplay](assets/gameplay.gif)
