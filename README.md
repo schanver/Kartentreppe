@@ -1,7 +1,28 @@
 # Kartentreppe 
-A two-player board game written in Kotlin using [BGW](https://github.com/tudo-aqua/bgw)-Framework
+A two-player board game written in Kotlin using [BGW](https://github.com/tudo-aqua/bgw)-Framework.
 ![GameBoard](assets/Kartentreppe.png)
 
+# Requirements
+- Requires Java 11+.
+# How to run
+First, unpack the file from the releases and run the scripts in `bin` \
+On Windows:
+```bat
+./bin/Kartentreppe.bat
+```
+On MacOS/Linux:
+```bash
+./bin/Kartentreppe
+```
+If you clone the repository, then: 
+``` bash
+./gradlew run
+```
+# Building from Source
+clone the project or download the source code from the releases
+``` bash
+./gradlew build 
+```
 # Gameplay
 ![Gameplay](assets/gameplay.gif)
 Players take turns playing a card from their hand and combining with a face-up card on the card stairscase
